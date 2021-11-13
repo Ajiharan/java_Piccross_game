@@ -35,34 +35,31 @@ import mvcPicross.GameController.Controller;
 public class GameView extends JFrame{
 
 
-	public JPanel panalOne = new JPanel();
-	public JPanel panalOneOne = new JPanel();
-	public JPanel panalThree = new JPanel();
-	public JPanel panalThreeThree = new JPanel();
+	public JPanel panalOne;
+	public JPanel panalOneOne;
+	public JPanel panalThree;
+	public JPanel panalThreeThree;
 	
 	public  int i=0;
 	public  Timer timer;
 	
-	public JButton[][] squares = new JButton[5][5];
-	public JButton reset = new JButton("Reset");
+	public JButton[][] squares;
+	public JButton reset;
+
+	public JLabel[] row; 
+	public JLabel[] col;
+	public JLabel time;
+	public JLabel points;
+
+	public JCheckBox myBox;
 
 
-	public JLabel[] row = new JLabel[5];
-	public JLabel[] col = new JLabel[5];
-	public JLabel time = new JLabel("Time : ");
-	public JLabel points = new JLabel("Points : ");
-
-	public JCheckBox myBox = new JCheckBox(" Mark ");
-
-
-	public JTextField timeField = new JTextField();
-	public JTextField pointsField = new JTextField();
-
-	public JTextArea jTextArea = new JTextArea();
-	
+	public JTextField timeField;
+	public JTextField pointsField;
+	public JTextArea jTextArea;
 	public int myTotalPoints =0;
 	public static final int DEFAULTGAME	=1;
-	public int[][] board;
+//	public int[][] board;
 	
 
 
@@ -70,37 +67,36 @@ public class GameView extends JFrame{
 
 	//private int myTotalPoints = 0;
 
-	public JScrollPane jScrollPane = new JScrollPane(jTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	public JScrollPane jScrollPane;
 	
 	
-	JMenuBar menuBar = new JMenuBar();
-	JMenu game = new JMenu("Game");
-	JMenu help = new JMenu("Help");
+	JMenuBar menuBar;
+	JMenu game; 
+	JMenu help ;
 	
 	
-	Icon newGameImage = new ImageIcon("piciconnew.gif");
-	JMenuItem newGame = new JMenuItem("New",newGameImage);
+	Icon newGameImage; 
+	JMenuItem newGame; 
 	
 	
-	Icon solutionImage = new ImageIcon("piciconsol.gif");
-	JMenuItem solution = new JMenuItem("Solution",solutionImage);
-	
-
-	Icon exitImage = new ImageIcon("piciconext.gif");
-	JMenuItem exit = new JMenuItem("Exit",exitImage);
-
-	
-	Icon colourImage = new ImageIcon("piciconcol.gif");
-	JMenuItem colors = new JMenuItem("Colors",colourImage);
+	Icon solutionImage; 
+	JMenuItem solution; 
 	
 
-	Icon aboutImage = new ImageIcon("piciconabt.gif");
-	JMenuItem about = new JMenuItem("About",aboutImage);
+	Icon exitImage;
+	JMenuItem exit;
+
+	
+	Icon colourImage;
+	JMenuItem colors;
+	
+
+	Icon aboutImage; 
+	JMenuItem about; 
 
 
 	
-	Font myFont = new Font("Serif", Font.TRUETYPE_FONT, 12);
+	Font myFont;
 	
 	
 	public void setRowLabel(int DIMENSION, GameModel model) {
@@ -126,7 +122,12 @@ public class GameView extends JFrame{
 				if(str=="") {
 					row[i].setText(count+"");
 				}else {
-					row[i].setText(str);
+					if(count > 0) {
+						row[i].setText(str+count);
+					}else {
+						row[i].setText(str);
+					}
+					
 				}
 				
 				
@@ -158,7 +159,12 @@ public class GameView extends JFrame{
 				if(str=="") {
 					col[i].setText(count+"");
 				}else {
-					col[i].setText(str);
+					if(count > 0) {
+						col[i].setText(str+count);
+					}else {
+						col[i].setText(str);
+					}
+					
 				}
 				
 				
@@ -170,6 +176,68 @@ public class GameView extends JFrame{
 	}
 	
 	GameView() {
+		panalOne = new JPanel();
+		panalOneOne = new JPanel();
+		panalThree = new JPanel();
+		panalThreeThree = new JPanel();
+		
+		squares = new JButton[5][5];
+		 reset = new JButton("Reset");
+
+
+		 row = new JLabel[5];
+		 col = new JLabel[5];
+		 time = new JLabel("Time : ");
+		 points = new JLabel("Points : ");
+
+		 myBox = new JCheckBox(" Mark ");
+
+		 timeField = new JTextField();
+		pointsField = new JTextField();
+
+		 jTextArea = new JTextArea();
+		
+		myTotalPoints =0;
+		
+		
+		
+
+
+		
+
+		//private int myTotalPoints = 0;
+
+		jScrollPane = new JScrollPane(jTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		
+		 menuBar = new JMenuBar();
+		 game = new JMenu("Game");
+		 help = new JMenu("Help");
+		
+		
+		newGameImage = new ImageIcon("piciconnew.gif");
+		 newGame = new JMenuItem("New",newGameImage);
+		
+		
+		solutionImage = new ImageIcon("piciconsol.gif");
+		 solution = new JMenuItem("Solution",solutionImage);
+		
+
+		exitImage = new ImageIcon("piciconext.gif");
+		exit = new JMenuItem("Exit",exitImage);
+
+		
+		 colourImage = new ImageIcon("piciconcol.gif");
+		 colors = new JMenuItem("Colors",colourImage);
+		
+
+		 aboutImage = new ImageIcon("piciconabt.gif");
+		 about = new JMenuItem("About",aboutImage);
+
+
+		
+		 myFont = new Font("Serif", Font.TRUETYPE_FONT, 12);
 		
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -212,11 +280,7 @@ public class GameView extends JFrame{
 			col[i].setOpaque(true);
 			topPanel.add(col[i]);
 		}
-//		col[0].setText(" ( 1 ) ");
-//		col[1].setText(" ( 3 ) ");
-//		col[2].setText(" ( 4 ) ");
-//		col[3].setText(" ( 3 ) ");
-//		col[4].setText(" ( 1 ) ");
+
 
 		JPanel controlPanel = new JPanel();
 		controlPanel.setPreferredSize(new Dimension(200, 600));
@@ -309,11 +373,7 @@ public class GameView extends JFrame{
 			row[i].setOpaque(true);
 			leftPanel.add(row[i]);
 		}
-//		row[0].setText(" ( 1 ) ");
-//		row[1].setText(" ( 1 ) ");
-//		row[2].setText(" ( 5 ) ");
-//		row[3].setText(" ( 3 ) ");
-//		row[4].setText(" ( 1,1 )");
+
 
 		JPanel boardPanal = new JPanel();
 		boardPanal.setPreferredSize(new Dimension(500, 500));
@@ -362,8 +422,35 @@ public class GameView extends JFrame{
 		setTimer();
 	}
 	
+	public void updateBoard(GameModel model) {
+		try {
+			
+			i=0;
+			timer=new Timer();
+			
+			setTimer();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void setBoardLabelConfiguration(GameModel model) {
 		
+	}
+	
+	public void newGameReset(GameModel model) {
+			for(int i=0; i<model.DIMENSION; i++) {
+				
+				for(int j=0; j <model.DIMENSION; j++) {
+					
+						this.squares[i][j].setBackground(Color.WHITE);
+					
+					this.squares[i][j].setEnabled(true);
+				}
+			}
+			this.reset.setEnabled(true);
+			this.myBox.setEnabled(true);
 	}
 	
 	public void showSolution(GameModel model) {
@@ -399,12 +486,9 @@ public class GameView extends JFrame{
 	
 	public  void setTimer() {
 		try {
-			timer.scheduleAtFixedRate(new TimerTask() {
-				
+			timer.scheduleAtFixedRate(new TimerTask() {	
 				@Override
 				public void run() {	
-					// TODO Auto-generated method stub
-//					System.out.println("i : "+i);
 					timeField.setText(i+" seconds");
 					i++;
 					
@@ -425,12 +509,13 @@ public class GameView extends JFrame{
 		for (int i = 0; i < 5; i++) {for (int j = 0; j < 5; j++) {
 		squares[i][j].addActionListener(actionListener);}}
 		solution.addActionListener(actionListener);
+		newGame.addActionListener(actionListener);
 		
 	}
 	void gameDefault() {
 		
-		 board=new int[][]{ {0,0,1,0,0}, {0,0,1,0,0}, {1,1,1,1,1}, {0,1,1,1,0},
-			{0,1,0,1,0},};
+//		 board=new int[][]{ {0,0,1,0,0}, {0,0,1,0,0}, {1,1,1,1,1}, {0,1,1,1,0},
+//			{0,1,0,1,0},};
 	}
 	
 	void addText(ActionListener actionListener ) {

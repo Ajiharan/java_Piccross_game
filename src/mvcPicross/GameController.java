@@ -46,6 +46,7 @@ public class GameController {
 			}
 		}
 		gameView.pointsField.setText("");
+		gameView.myTotalPoints=0;
 		gameView.stopTimer();
 	}
 
@@ -107,9 +108,18 @@ public class GameController {
 				gameView.cancelTimer();
 				gameView.showSolution(gameModel);
 				
-			}else {
-				for (i = 0; i < 5; i++) {
-					for (j = 0; j < 5; j++) {
+			}else if(eventObject==gameView.newGame) {
+				gameModel.NewGame();
+				gameModel.defaultGame();
+				gameView.timer.cancel();
+				gameView.updateBoard(gameModel);
+				gameView.setColumLabel(gameModel.DIMENSION, gameModel);
+				gameView.setRowLabel(gameModel.DIMENSION, gameModel);
+				gameView.newGameReset(gameModel);
+			}
+			else {
+				for (i = 0; i < gameModel.DIMENSION; i++) {
+					for (j = 0; j < gameModel.DIMENSION; j++) {
 						if (eventObject == gameView.squares[i][j]) {
 							//System.out.println(" eventObject -"+gameView.squares[i][j].getText());
 							gameView.jTextArea.append("Pos "+gameView.squares[i][j].getText() + " " + i + " " + j + " clicked\n");

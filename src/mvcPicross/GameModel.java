@@ -1,5 +1,6 @@
 package mvcPicross;
 import java.awt.Dimension;
+import java.util.Random;
 import java.util.StringTokenizer;
 public class GameModel {
 
@@ -22,6 +23,27 @@ public class GameModel {
 		System.out.println(" myTotalPoints : " + myPoints);
 		//pointsField.setText("" + myPoints);
 
+	}
+	
+	public void NewGame() {
+		Random random=new Random();
+		int randomNumber=random.nextInt(10);
+		if(randomNumber >= 1) {
+//			DIMENSION=randomNumber;
+			String newStr="";
+			for(int i = 0; i <DIMENSION; i++) {
+				int rand=random.nextInt((int) Math.pow(2, DIMENSION)-1);
+				if(i==DIMENSION-1) {
+					newStr=newStr+Integer.toBinaryString( (1 << DIMENSION) | rand ).substring( 1 );
+				}else {
+					newStr=newStr+Integer.toBinaryString( (1 << DIMENSION) | rand ).substring( 1 )+",";
+				}
+							
+			}
+			System.out.println(newStr);
+			this.valStr=newStr;
+			
+		}
 	}
 	
 	
