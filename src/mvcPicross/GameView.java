@@ -63,7 +63,9 @@ public class GameView extends JFrame{
 	
 
 
-	
+	public  Color errorColor=Color.RED;
+	public  Color correctColor=Color.GREEN;
+	public Color  markColor=Color.YELLOW;
 
 	//private int myTotalPoints = 0;
 
@@ -459,9 +461,9 @@ public class GameView extends JFrame{
 			
 			for(int j=0; j <model.DIMENSION; j++) {
 				if(model.getMyBox(i, j)==1) {
-					this.squares[i][j].setBackground(Color.GREEN);
+					this.squares[i][j].setBackground(correctColor);
 				}else {
-					this.squares[i][j].setBackground(Color.YELLOW);
+					this.squares[i][j].setBackground(markColor);
 				}
 				this.squares[i][j].setEnabled(false);
 			}
@@ -510,6 +512,7 @@ public class GameView extends JFrame{
 		squares[i][j].addActionListener(actionListener);}}
 		solution.addActionListener(actionListener);
 		newGame.addActionListener(actionListener);
+		colors.addActionListener(actionListener);
 		
 	}
 	void gameDefault() {

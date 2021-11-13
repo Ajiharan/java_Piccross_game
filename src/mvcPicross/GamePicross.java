@@ -18,7 +18,8 @@ public class GamePicross extends JWindow {
 
 	  public GamePicross(int duration) {
 		    this.duration = duration;
-		  } 
+	 }
+	  
 	  public void showSplashWindow() {
 
 		     JPanel content = new JPanel(new BorderLayout());
@@ -64,7 +65,7 @@ public class GamePicross extends JWindow {
 	    	} 
 	    }
 	    GamePicross splashWindow = new GamePicross(duration);
-	 splashWindow.showSplashWindow();
+	 //splashWindow.showSplashWindow();
 		// TODO Auto-generated method stub
 		exc();
 	}

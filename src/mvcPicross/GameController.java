@@ -1,15 +1,31 @@
 package mvcPicross;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class GameController {
 
 	private GameView gameView;
 	private GameModel gameModel;
+	private List<String> Correctmap=new ArrayList<>();
+	private List<String> ErrorMap=new ArrayList<>();
+	private List<String> MarkMap=new ArrayList<>();
 
 	//ActionEvent e;
 
@@ -39,6 +55,10 @@ public class GameController {
 	public void setObject(Object eventObject) {this.eventObject=eventObject;}
 	
 	public void resetGame() {
+		Correctmap=new ArrayList<>();
+		ErrorMap=new ArrayList<>();
+		MarkMap=new ArrayList<>();
+		
 		for(int i =0; i <5 ;i++) {
 			for(int  j =0; j < 5; j++) {
 				gameView.squares[i][j].setBackground(Color.WHITE);
@@ -49,25 +69,38 @@ public class GameController {
 		gameView.myTotalPoints=0;
 		gameView.stopTimer();
 	}
-
-	public void gameGame(int i, int j) {	
+	
+	public void setColorInButton(int i,int j) {
+		
 		if(gameView.myBox.isSelected()) {
 			if(gameModel.getMyBox(i, j)==0) {
 				gameView.myTotalPoints = gameView.myTotalPoints + 1;
-				gameView.squares[i][j].setBackground(Color.YELLOW);
+				gameView.squares[i][j].setBackground(gameView.markColor);
+				MarkMap.add(i+","+j);
+				
 			}else {
+				
 				gameView.myTotalPoints = gameView.myTotalPoints - 1;
-				gameView.squares[i][j].setBackground(Color.RED);
+				gameView.squares[i][j].setBackground(gameView.errorColor);
+				ErrorMap.add(i+","+j);
 			}
 		}else {
 			if(gameModel.getMyBox(i, j)==1) {
 				gameView.myTotalPoints = gameView.myTotalPoints + 1;
-				gameView.squares[i][j].setBackground(Color.GREEN);
+				gameView.squares[i][j].setBackground(gameView.correctColor);
+				Correctmap.add(i+","+j);
 			}else {
+				
 				gameView.myTotalPoints = gameView.myTotalPoints - 1;
-				gameView.squares[i][j].setBackground(Color.RED);
+				gameView.squares[i][j].setBackground(gameView.errorColor);
+				ErrorMap.add(i+","+j);
 			}
 		}
+	}
+
+	public void gameGame(int i, int j) {
+		
+		setColorInButton(i,j);
 				
 		
 //		System.out.println(i + " == " + j);
@@ -76,6 +109,32 @@ public class GameController {
 		gameView.squares[i][j].setEnabled(false);
 
 	}
+	
+	public void resetColor() {
+		Correctmap.forEach((e)->{
+			StringTokenizer st = new StringTokenizer(e, ",");
+			int i = Integer.parseInt(st.nextToken());
+			int j = Integer.parseInt(st.nextToken());
+			gameView.squares[i][j].setBackground(gameView.correctColor);
+			
+		});
+		ErrorMap.forEach((e)->{
+			StringTokenizer st = new StringTokenizer(e, ",");
+			int i = Integer.parseInt(st.nextToken());
+			int j = Integer.parseInt(st.nextToken());
+			gameView.squares[i][j].setBackground(gameView.errorColor);
+			
+		});
+		MarkMap.forEach((e)->{
+			StringTokenizer st = new StringTokenizer(e, ",");
+			int i = Integer.parseInt(st.nextToken());
+			int j = Integer.parseInt(st.nextToken());
+			gameView.squares[i][j].setBackground(gameView.markColor);
+			
+		});
+	}
+	
+	
 	class Controller implements ActionListener {
 		private ActionEvent e;
 		public ActionEvent getActionEvent () {return e;}
@@ -107,6 +166,7 @@ public class GameController {
 			} else if(eventObject==gameView.solution) {
 				gameView.cancelTimer();
 				gameView.showSolution(gameModel);
+//				resetColor();
 				
 			}else if(eventObject==gameView.newGame) {
 				gameModel.NewGame();
@@ -116,6 +176,63 @@ public class GameController {
 				gameView.setColumLabel(gameModel.DIMENSION, gameModel);
 				gameView.setRowLabel(gameModel.DIMENSION, gameModel);
 				gameView.newGameReset(gameModel);
+				
+				Correctmap= new ArrayList<>();
+				ErrorMap=new ArrayList<>();
+				MarkMap=new ArrayList<>();
+			}
+			else if(eventObject==gameView.colors) {
+//				
+				JFrame frame= new JFrame();
+			    frame.setTitle("gui");
+			    frame.setSize(250, 250);
+			    frame.setLocation(200, 200);
+//			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    frame.setResizable(false);
+			    JButton errorButton=new JButton("error");
+			    JButton correctButton=new JButton("correct");
+			    JButton markButton=new JButton("mark");
+			    
+			    errorButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						gameView.errorColor=JColorChooser.showDialog(null,"Choose",Color.RED); 
+						resetColor();
+						
+					}
+				});
+
+			    correctButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						gameView.correctColor=JColorChooser.showDialog(null,"Choose",Color.GREEN);  
+						resetColor();
+						
+					}
+				});
+			    
+			    markButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						gameView.markColor=JColorChooser.showDialog(null,"Choose",Color.YELLOW);  
+						resetColor();
+						
+						
+					}
+				});
+
+
+			    JPanel panel = new JPanel();  
+		        panel.setLayout(new FlowLayout());  
+		        panel.add(correctButton);
+		        panel.add(errorButton);
+		        panel.add(markButton);
+		        frame.add(panel);  
+
+			    frame.setVisible(true);
 			}
 			else {
 				for (i = 0; i < gameModel.DIMENSION; i++) {
