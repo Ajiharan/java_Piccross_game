@@ -103,16 +103,69 @@ public class GameView extends JFrame{
 	Font myFont = new Font("Serif", Font.TRUETYPE_FONT, 12);
 	
 	
-	public void setColumLabel(int DIMENSION, GameModel model) {
+	public void setRowLabel(int DIMENSION, GameModel model) {
 		
-		for(int i=0; i <DIMENSION ;i++) {
-			for(int j =0; j<DIMENSION; j++) {
+		try {
+			for(int i=0; i <DIMENSION ;i++) {
+				int count=0;
+				String str="";
+				for(int j =0; j<DIMENSION; j++) {
+					if(model.getMyBox(i,j)==1) {
+						count++;
+					}
+					if(j+1 <DIMENSION) {
+						if(model.getMyBox(i,j)==1 && model.getMyBox(i,j+1)==0 ) {
+							
+							str=str+count+",";
+							
+							count=0;
+						}
+					}				
+					
+				}
+				if(str=="") {
+					row[i].setText(count+"");
+				}else {
+					row[i].setText(str);
+				}
+				
 				
 			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
+		
 	}
 	
-	public void setRowColumn(int DIMENSION,GameModel model) {
+	public void setColumLabel(int DIMENSION,GameModel model) {
+		
+		try {
+			for(int i=0; i <DIMENSION ;i++) {
+				int count=0;
+				String str="";
+				for(int j =0; j<DIMENSION; j++) {
+					if(model.getMyBox(j,i)==1) {
+						count++;
+					}
+					if(j+1 <DIMENSION) {
+						if(model.getMyBox(j,i)==1 && model.getMyBox(j+1,i)==0 ) {
+							str=str+count+",";
+							count=0;
+						}
+					}		
+					
+				}
+				if(str=="") {
+					col[i].setText(count+"");
+				}else {
+					col[i].setText(str);
+				}
+				
+				
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -159,11 +212,11 @@ public class GameView extends JFrame{
 			col[i].setOpaque(true);
 			topPanel.add(col[i]);
 		}
-		col[0].setText(" ( 1 ) ");
-		col[1].setText(" ( 3 ) ");
-		col[2].setText(" ( 4 ) ");
-		col[3].setText(" ( 3 ) ");
-		col[4].setText(" ( 1 ) ");
+//		col[0].setText(" ( 1 ) ");
+//		col[1].setText(" ( 3 ) ");
+//		col[2].setText(" ( 4 ) ");
+//		col[3].setText(" ( 3 ) ");
+//		col[4].setText(" ( 1 ) ");
 
 		JPanel controlPanel = new JPanel();
 		controlPanel.setPreferredSize(new Dimension(200, 600));
@@ -256,11 +309,11 @@ public class GameView extends JFrame{
 			row[i].setOpaque(true);
 			leftPanel.add(row[i]);
 		}
-		row[0].setText(" ( 1 ) ");
-		row[1].setText(" ( 1 ) ");
-		row[2].setText(" ( 5 ) ");
-		row[3].setText(" ( 3 ) ");
-		row[4].setText(" ( 1,1 )");
+//		row[0].setText(" ( 1 ) ");
+//		row[1].setText(" ( 1 ) ");
+//		row[2].setText(" ( 5 ) ");
+//		row[3].setText(" ( 3 ) ");
+//		row[4].setText(" ( 1,1 )");
 
 		JPanel boardPanal = new JPanel();
 		boardPanal.setPreferredSize(new Dimension(500, 500));

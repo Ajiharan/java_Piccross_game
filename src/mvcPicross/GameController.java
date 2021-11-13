@@ -23,9 +23,11 @@ public class GameController {
 
 	}
 	public void start() {
-
-		gameView.setVisible(true);
 		gameModel.defaultGame();
+		gameView.setColumLabel(gameModel.DIMENSION, gameModel);
+		gameView.setRowLabel(gameModel.DIMENSION, gameModel);
+		
+		gameView.setVisible(true);
 		gameView.addMyListener(new Controller());
 
 	}
